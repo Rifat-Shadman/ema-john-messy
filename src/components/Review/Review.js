@@ -4,7 +4,8 @@ import { getDatabaseCart, processOrder, removeFromDatabaseCart } from '../../uti
 import Cart from '../Cart/Cart';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import { Link, useHistory } from 'react-router-dom';
-import happyImage from '../../images/giphy.gif';
+// import happyImage from '../../images/giphy.gif';
+import Bookings from '../Bookings/Bookings';
 
 const Review = () => {
     const [cart,setCart] = useState([]) ;
@@ -26,7 +27,7 @@ const Review = () => {
         const productKeys = Object.keys(savedCart);
         
 
-        fetch('https://cherry-surprise-20492.herokuapp.com/productsByKeys', {
+        fetch('http://localhost:5000/productsByKeys', {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json'
@@ -44,23 +45,22 @@ const Review = () => {
         // setCart(cartProducts);
     },[])
 
-    let thankyou;
-    if(orderPlaced){
-        thankyou = <img src={happyImage} alt=""/> 
-    } 
+    // let thankyou;
+    // if(orderPlaced){
+    //     thankyou = <img src={happyImage} alt=""/> 
+    // } 
 
     return (
+        // <Bookings></Bookings>
         <div className="twin-container">
             <div className="product-container">
             {
                 cart.map(pd=> <ReviewItem 
                     removeProduct = {removeProduct}
-                    key={pd.key}
+                    key={pd._id}
                     product={pd}></ReviewItem>)
             }
-            {
-                thankyou
-            }
+           
             </div>
             <div className="cart-container">
                 <Cart cart={cart}>

@@ -7,7 +7,7 @@ const ProductDetail = () => {
     const {productKey} = useParams();
     const [product, setProduct] = useState({});
     useEffect(() => {
-        fetch('https://cherry-surprise-20492.herokuapp.com/product/'+productKey)
+        fetch('http://localhost:5000/product/'+productKey)
         .then(res => res.json())
         .then(data => setProduct(data));
     },[productKey])

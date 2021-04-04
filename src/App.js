@@ -15,6 +15,7 @@ import {
 import Login from './components/Login/Login';
 import Shipment from './components/Shipment/Shipment';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import ManageProduct from './components/ManageProduct/ManageProduct';
 
 
 export const UserContext = createContext();
@@ -25,7 +26,7 @@ function App(props) {
   const [loggedInUser, setLoggedInUser] = useState({});
   return (
     <UserContext.Provider value = {[loggedInUser, setLoggedInUser]}>
-      
+      <TakenBookContext.Provider value={[takenBook, setTakenBook]}>
       <Router>
         <Header></Header>
         <Switch>
@@ -39,6 +40,9 @@ function App(props) {
 
           <PrivateRoute path="/inventory">
             <Inventory></Inventory>
+          </PrivateRoute>
+          <PrivateRoute path="/manageProducts">
+            <ManageProduct></ManageProduct>
           </PrivateRoute>
           <Route exact path="/">
             <Shop></Shop>
@@ -60,7 +64,7 @@ function App(props) {
 
       </Router>
       
-      
+      </TakenBookContext.Provider>
     </UserContext.Provider>
   );
 }

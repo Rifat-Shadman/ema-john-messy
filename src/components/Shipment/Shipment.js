@@ -3,15 +3,16 @@ import { useForm } from 'react-hook-form';
 import { UserContext } from '../../App';
 import { getDatabaseCart, processOrder } from '../../utilities/databaseManager';
 import './Shipment.css'
-const Shipment = () => {
+const Shipment = (props) => {
+  console.log(props);
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
     const { register, handleSubmit, watch, errors } = useForm();
     const onSubmit = data =>{
       const savedCart = getDatabaseCart();
       console.log(data);
       const orderDetails = {...loggedInUser, products: savedCart, shipment: data, orderTime: new Date()}
-
-      fetch('https://cherry-surprise-20492.herokuapp.com/addOrder', {
+      console.log(orderDetails);
+      fetch('http://localhost:5000/addOrder', {
         method:'POST',
         headers:{
           'Content-Type': 'application/json'
@@ -28,7 +29,7 @@ const Shipment = () => {
       })
     } 
   
-    console.log(watch("example")); 
+    // console.log(watch("example")); 
   
     return (
       

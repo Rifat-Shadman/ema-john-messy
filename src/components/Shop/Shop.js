@@ -5,64 +5,38 @@ import Product from '../Product/Product';
 import Cart from '../Cart/Cart';
 import { addToDatabaseCart, getDatabaseCart } from '../../utilities/databaseManager';
 import { Link } from 'react-router-dom';
-
+import ManageProduct from '../ManageProduct/ManageProduct';
 const Shop = () => {
 
     // const first10 = fakeData.slice(0,10);
     const [products, setProducts] = useState([]);
-    const [cart, setCart] = useState([]);
+    // const [cart, setCart] = useState([]);
 
     useEffect(() => {
-        fetch('https://cherry-surprise-20492.herokuapp.com/products')
+        fetch('http://localhost:5000/products')
             .then(res => res.json())
-            .then(data => setProducts(data))
+            .then(data =>{
+                 setProducts(data);
+                console.log(data);     
+            })
     }, [])
 
 
-    useEffect(() => {
-        const savedCart = getDatabaseCart();
-        const productKeys = Object.keys(savedCart);
-        fetch('https://cherry-surprise-20492.herokuapp.com/productsByKeys', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(productKeys)
-        })
-            .then(res => res.json())
-            .then(data => setCart(data))
-    }, [])
 
-    const handleAddProduct = (product) => {
-        const newCart = [...cart, product];
-        setCart(newCart);
-        const sameProdut = newCart.filter(pd => pd.key === product.key);
-        const count = sameProdut.length;
-        addToDatabaseCart(product.key, count);
-    }
 
     return (
-        <div className="twin-container">
-            <div className="product-container">
+        <div >
+            <div className="row my-container">
                 {
                     products.map(pd => <Product
-                        key={pd.key}
+                        key={pd._id}
                         showAddToCart={true}
                         handleAddProduct={handleAddProduct}
-                        product={pd}></Product>)
+                        product={pd}></Product>) 
                 }
-            </div>
 
-            <div className="cart-container">
-                <Cart cart={cart}>
-                    <Link to="/reviews">
-                        <button className="main-button">
-                            Review Order
-                        </button>
-                    </Link>
-                </Cart>
-            </div>
 
+            </div>
         </div>
     );
 };
